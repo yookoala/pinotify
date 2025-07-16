@@ -1,0 +1,18 @@
+# RPi Doorbell Watcher
+
+This is a small project for hooking a wireless doorbell receiver to an RPi.
+And then trying to capture electirc signal when the doorbell button is triggered.
+
+This involves wiring a specific misc-brand wireless doorbell receiver to the
+pin 17 of a Raspberry Pi device. And then reading the rising / falling of the
+voltage difference of the LED, which is triggered when the button is pressed.
+
+The specific LED flashes many times when the doorbell is pressed, so there is
+a grace mechanism to only trigger the program once for every certain period of
+time.
+
+
+## License
+
+This software is licensed under the [MIT License](https://mit-license.org/).
+A copy of the license can be obtained in the repository at [LICENSE.md](LICENSE.md).
