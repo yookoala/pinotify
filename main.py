@@ -1,7 +1,9 @@
+import asyncio
 from collections.abc import Callable
 from datetime import timedelta
 import gpiod
 import sys
+import time
 from gpiod.line import Bias, Edge
 
 CHIP = '/dev/gpiochip0' # The default for RPi 5
@@ -27,7 +29,36 @@ def print_event(event):
             event.line_offset, edge_type_str(event), event.line_seqno
         )
     )
+
+class GracefulActor:
+    _grace: int
+    _action: Callable
+    __lock: asyncio.Lock
+    __until: float
+
+    def __init__(self, action: Callable, grace: float = 20.0):
+        self._action = action
+        self._grace = grace
+        self.__lock = asyncio.Lock()
+        self.__until = 0.0
+
+    def __call__(self, *args, **kwargs):
+        asyncio.run(self.act(*args, **kwargs))
     
+    async def act(self, *args, **kwargs):
+        now = time.time()
+        await self.__lock.acquire()
+        try:
+            if now > self.__until:
+                # only act if is not within grace period
+                print("act now! until = {}".format(self.__until))
+                self._action(*args, **kwargs)
+                self.__until = now + self._grace
+            else:
+                print("grace now! until = {}".format(self.__until))
+        finally:
+            self.__lock.release()
+
 def watch_line(
     line: int,
     event_handler: Callable,
@@ -55,7 +86,7 @@ def watch_line(
 if __name__ == '__main__':
     watch_line(
         line=LINE,
-        event_handler=print_event,
+        event_handler=GracefulActor(action=print_event),
         chip=CHIP,
         consumer="Test Project",
         edge_detection=Edge.FALLING,
