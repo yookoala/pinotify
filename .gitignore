@@ -6,3 +6,11 @@
 
 # dotenv file
 .env
+
+# Ignore database related file
+*.db
+*.sql
+*.sqlite3
+
+# Ignore sockets
+*.sock
