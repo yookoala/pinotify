@@ -2,6 +2,7 @@ import argparse
 from collections.abc import Callable
 from datetime import timedelta
 import gpiod
+import json
 import logging
 import subprocess
 import sys
@@ -22,6 +23,16 @@ def print_event(event):
             event.line_offset, edge_type_str(event), event.line_seqno
         )
     )
+
+def parse_json_list(string: str) -> List[str]:
+    # Parse the JSON string
+    parsed_list = json.loads(string)
+
+    # Check if the parsed result is a list
+    if isinstance(parsed_list, list):
+        return parsed_list
+    else:
+        raise ValueError("Parsed JSON is not a list")
 
 def command_runner(command: List[str], logger: logging.Logger):
     def cb(*args, **kwargs):
@@ -70,6 +81,12 @@ if __name__ == '__main__':
         help='Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)',
         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
     )
+    parser.add_argument(
+        '--command',
+        type=str,
+        default='["echo", "bell rang!"]',
+        help="Command to run in JSON array format",
+    )
     args = parser.parse_args(sys.argv[1:])
 
     # Setup for logging
@@ -80,6 +97,11 @@ if __name__ == '__main__':
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
+
+    # Parse args.command as JSON array
+    command = parse_json_list(args.command)
+    logger.debug('commands: {}'.format(args.command))
+    logger.debug('commands parsed: {}'.format(command))
 
     # Check if the chip is ready
     if not gpiod.is_gpiochip_device(CHIP_PATH):
@@ -98,7 +120,7 @@ if __name__ == '__main__':
         line=LINE,
         event_handler=GracefulActor(
             action=command_runner(
-                command=['doorbot-client', 'ring'],
+                command=command,
                 logger=logger,
             ),
             grace=10.0,
