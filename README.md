@@ -11,6 +11,9 @@ The specific LED flashes many times when the doorbell is pressed, so there is
 a grace mechanism to only trigger the program once for every certain period of
 time.
 
+The software make use of the new [libgpiod](https://libgpiod.readthedocs.io/)
+interface with the [official Python binding library](https://libgpiod.readthedocs.io/en/latest/python_api.html).
+
 
 ## License
 
