@@ -4,8 +4,8 @@ import gpiod
 import sys
 from gpiod.line import Bias, Edge
 
-CHIP = '/dev/gpiochip0'
-LINE = 'GPIO17'
+CHIP = '/dev/gpiochip0' # The default for RPi 5
+LINE = 17 # Use the GPIO Pin 17 for this project
 
 if not gpiod.is_gpiochip_device(CHIP):
     print("Chip not found: {}".format(CHIP))
@@ -30,7 +30,7 @@ def print_event(event):
     
 def watch_line(
     line: int,
-    even_handler: Callable,
+    event_handler: Callable,
     consumer: str = '',
     chip: str = CHIP,
     edge_detection: Edge = Edge.NONE,
@@ -49,12 +49,12 @@ def watch_line(
     ) as request:
         while True:
             for event in request.read_edge_events():
-                print_event(event)
+                event_handler(event)
 
 
 if __name__ == '__main__':
     watch_line(
-        line=17,
+        line=LINE,
         event_handler=print_event,
         chip=CHIP,
         consumer="Test Project",
