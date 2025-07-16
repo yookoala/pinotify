@@ -3,3 +3,6 @@
 
 # python intermediate compiled files
 *.pyc
+
+# dotenv file
+.env
