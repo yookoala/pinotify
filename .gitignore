@@ -1,2 +1,5 @@
 # python venv folder
 /.venv
+
+# python intermediate compiled files
+*.pyc
