@@ -2,7 +2,9 @@ from collections.abc import Callable
 from datetime import timedelta
 import gpiod
 import logging
+import subprocess
 import sys
+from typing import List
 from gpiod.line import Bias, Edge
 from .lib.graceful_actor import GracefulActor
 
@@ -19,6 +21,16 @@ def print_event(event):
             event.line_offset, edge_type_str(event), event.line_seqno
         )
     )
+
+def command_runner(command: List[str], logger: logging.Logger):
+    def cb(*args, **kwargs):
+        try:
+            # Run the command and capture the output
+            result = subprocess.run(command, check=True, text=True, capture_output=True)
+            logger.debug("run_command output: {}".format(result.stdout))  # Print the standard output
+        except subprocess.CalledProcessError as e:
+            logger.error(f"An error occurred: {e.stderr}")  # Print the error if the command fails
+    return cb
 
 def watch_line(
     line: int,
@@ -73,7 +85,14 @@ if __name__ == '__main__':
     watch_line(
         chip_path=CHIP_PATH,
         line=LINE,
-        event_handler=GracefulActor(action=print_event, grace=10.0, logger=logger),
+        event_handler=GracefulActor(
+            action=command_runner(
+                command=['doorbot-client', 'ring'],
+                logger=logger,
+            ),
+            grace=10.0,
+            logger=logger,
+        ),
         consumer="Test Project",
         edge_detection=Edge.FALLING,
         bias=Bias.PULL_UP,
