@@ -1,6 +1,7 @@
+from collections.abc import Callable
+from datetime import timedelta
 import gpiod
 import sys
-from datetime import timedelta
 from gpiod.line import Bias, Edge
 
 CHIP = '/dev/gpiochip0'
@@ -20,21 +21,43 @@ def edge_type_str(event):
         return "Falling"
     return "Unknown"
 
-with gpiod.request_lines(
-    CHIP,
-    consumer='Test Project',
-    config={
-        17: gpiod.LineSettings(
-            edge_detection=Edge.BOTH,
-            bias=Bias.PULL_UP,
-            debounce_period=timedelta(milliseconds=10),
+def print_event(event):
+    print(
+        "line: {}  type: {:<7}  event #{}".format(
+            event.line_offset, edge_type_str(event), event.line_seqno
         )
-    },
-) as request:
-    while True:
-        for event in request.read_edge_events():
-            print(
-                "line: {}  type: {:<7}  event #{}".format(
-                    event.line_offset, edge_type_str(event), event.line_seqno
-                )
+    )
+    
+def watch_line(
+    line: int,
+    even_handler: Callable,
+    consumer: str = '',
+    chip: str = CHIP,
+    edge_detection: Edge = Edge.NONE,
+    bias: Bias = Bias.AS_IS,
+):
+    with gpiod.request_lines(
+        chip,
+        consumer=consumer,
+        config={
+            line: gpiod.LineSettings(
+                edge_detection=edge_detection,
+                bias=bias,
+                debounce_period=timedelta(milliseconds=10),
             )
+        },
+    ) as request:
+        while True:
+            for event in request.read_edge_events():
+                print_event(event)
+
+
+if __name__ == '__main__':
+    watch_line(
+        line=17,
+        event_handler=print_event,
+        chip=CHIP,
+        consumer="Test Project",
+        edge_detection=Edge.FALLING,
+        bias=Bias.PULL_UP,
+    )
