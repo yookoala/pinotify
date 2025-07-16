@@ -1,3 +1,4 @@
+import argparse
 from collections.abc import Callable
 from datetime import timedelta
 import gpiod
@@ -26,6 +27,7 @@ def command_runner(command: List[str], logger: logging.Logger):
     def cb(*args, **kwargs):
         try:
             # Run the command and capture the output
+            logger.info("run_command: {}".format(command))
             result = subprocess.run(command, check=True, text=True, capture_output=True)
             logger.debug("run_command output: {}".format(result.stdout))  # Print the standard output
         except subprocess.CalledProcessError as e:
@@ -55,17 +57,26 @@ def watch_line(
             for event in request.read_edge_events():
                 event_handler(event)
 
-
 if __name__ == '__main__':
 
     CHIP_PATH = '/dev/gpiochip0' # The default for RPi 5
     LINE = 17 # Use the GPIO Pin 17 for this project
 
+    parser = argparse.ArgumentParser(description="Set logging level for the application.")
+    parser.add_argument(
+        '--log-level',
+        type=str,
+        default='INFO',
+        help='Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)',
+        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+    )
+    args = parser.parse_args(sys.argv[1:])
+
     # Setup for logging
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(args.log_level.upper())
     handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.DEBUG)
+    handler.setLevel(args.log_level.upper())
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
