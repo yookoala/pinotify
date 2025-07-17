@@ -71,7 +71,7 @@ def watch_line(
 if __name__ == '__main__':
 
     CHIP_PATH = '/dev/gpiochip0' # The default for RPi 5
-    LINE = 17 # Use the GPIO Pin 17 for this project
+    DEFAULT_LINE = 17 # Use the GPIO Pin 17 for this project
 
     parser = argparse.ArgumentParser(description="Set logging level for the application.")
     parser.add_argument(
@@ -86,6 +86,12 @@ if __name__ == '__main__':
         type=str,
         default='["echo", "bell rang!"]',
         help="Command to run in JSON array format",
+    )
+    parser.add_argument(
+        '--pin',
+        type=int,
+        default=DEFAULT_LINE,
+        help='Integer. Set the GPIO pin number to monitor. Default: 17.',
     )
     args = parser.parse_args(sys.argv[1:])
 
@@ -117,7 +123,7 @@ if __name__ == '__main__':
     # Watch the specific chip line
     watch_line(
         chip_path=CHIP_PATH,
-        line=LINE,
+        line=args.pin,
         event_handler=GracefulActor(
             action=command_runner(
                 command=command,
