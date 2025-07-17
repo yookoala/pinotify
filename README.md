@@ -15,6 +15,21 @@ The software make use of the new [libgpiod](https://libgpiod.readthedocs.io/)
 interface with the [official Python binding library](https://libgpiod.readthedocs.io/en/latest/python_api.html).
 
 
+## Usage
+
+```
+usage: python3 -m doorbot [-h] [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--command COMMAND] [--pin PIN]
+
+Set logging level for the application.
+
+options:
+  -h, --help            show this help message and exit
+  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+                        Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  --command COMMAND     Command to run in JSON array format
+  --pin PIN             Integer. Set the GPIO pin number to monitor. Default: 17.
+```
+
 ## License
 
 This software is licensed under the [MIT License](https://mit-license.org/).
