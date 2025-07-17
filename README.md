@@ -15,6 +15,15 @@ The software make use of the new [libgpiod](https://libgpiod.readthedocs.io/)
 interface with the [official Python binding library](https://libgpiod.readthedocs.io/en/latest/python_api.html).
 
 
+## Installation
+
+Clone the repository. Then install the requirements:
+
+```
+pip install -r requirements.txt
+```
+
+
 ## Usage
 
 ```
