@@ -85,7 +85,8 @@ if __name__ == '__main__':
         '--command',
         type=str,
         default='["echo", "bell rang!"]',
-        help="Command to run in JSON array format",
+        help="Command to run when edge event is triggered. In JSON array format. "
+            "Example: '[\"echo\", \"bell rang!\"]'.",
     )
     parser.add_argument(
         '--pin',

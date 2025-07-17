@@ -35,7 +35,8 @@ options:
   -h, --help            show this help message and exit
   --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
                         Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-  --command COMMAND     Command to run in JSON array format
+  --command COMMAND     Command to run when edge event is triggered. In JSON array format.
+                        Example: '["echo", "bell rang!"]'.
   --pin PIN             Integer. Set the GPIO pin number to monitor. Default: 17.
 ```
 
