@@ -40,6 +40,17 @@ options:
   --pin PIN             Integer. Set the GPIO pin number to monitor. Default: 17.
 ```
 
+
+### Example
+
+Say you want to run "/usr/local/bin/mycommand", with some parameter "param1" and "param2",
+whenever a pin 12 voltage drops:
+
+```
+python3 -m pinotify --pin 12 --exec '["/usr/local/bin/mycommand", "param1", "param2"]'
+```
+
+
 ## License
 
 This software is licensed under the [MIT License](https://mit-license.org/).
