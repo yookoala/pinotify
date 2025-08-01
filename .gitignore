@@ -14,3 +14,7 @@
 
 # Ignore sockets
 *.sock
+
+# Build folder and package info
+/dist/
+*.egg-info/
