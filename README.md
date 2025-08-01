@@ -1,4 +1,4 @@
-# RPi Pin Watcher
+# Pinotify
 
 This is a small software for receiving notification of a Raspberry Pi (RPi)
 pin change through [libgpiod][libgpiod]. This software monitor the voltage fall
