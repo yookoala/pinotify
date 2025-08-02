@@ -82,7 +82,7 @@ if __name__ == '__main__':
         choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
     )
     parser.add_argument(
-        '--command',
+        '--exec',
         type=str,
         default='["echo", "bell rang!"]',
         help="Command to run when edge event is triggered. In JSON array format. "
@@ -106,9 +106,9 @@ if __name__ == '__main__':
     logger.addHandler(handler)
 
     # Parse args.command as JSON array
-    command = parse_json_list(args.command)
-    logger.debug('commands: {}'.format(args.command))
-    logger.debug('commands parsed: {}'.format(command))
+    exec = parse_json_list(args.exec)
+    logger.debug('exec: {}'.format(args.exec))
+    logger.debug('exec parsed: {}'.format(exec))
 
     # Check if the chip is ready
     if not gpiod.is_gpiochip_device(CHIP_PATH):
@@ -127,7 +127,7 @@ if __name__ == '__main__':
         line=args.pin,
         event_handler=GracefulActor(
             action=command_runner(
-                command=command,
+                command=exec,
                 logger=logger,
             ),
             grace=10.0,
