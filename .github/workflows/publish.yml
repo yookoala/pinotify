@@ -1,4 +1,4 @@
-name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+name: Publishing to PyPI and TestPyPI
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+    name: Build and publish
     runs-on: ubuntu-latest
     permissions:
       id-token: write
