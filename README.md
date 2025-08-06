@@ -1,5 +1,7 @@
 # Pinotify
 
+[![pypi.org][pypi-badge]][pypi-url]
+
 This is a small software for receiving notification of a Raspberry Pi (RPi)
 pin change through [libgpiod][libgpiod]. This software monitor the voltage fall
 of pin 17. Optionally, this software may run another application through the
@@ -11,6 +13,8 @@ and then trying to capture electirc signal when the doorbell button is triggered
 The software make use of the new [libgpiod][libgpiod] interface with the
 [official Python binding library][libgpiod-python].
 
+[pypi-badge]: https://img.shields.io/pypi/v/pinotify
+[pypi-url]: https://pypi.org/project/pyinotify/
 [libgpiod]: https://libgpiod.readthedocs.io/
 [libgpiod-python]: (https://libgpiod.readthedocs.io/en/latest/python_api.html)
 
@@ -20,7 +24,7 @@ The software make use of the new [libgpiod][libgpiod] interface with the
 Clone the repository. Then install the requirements:
 
 ```
-pip install -r requirements.txt
+pip install pinotify
 ```
 
 
