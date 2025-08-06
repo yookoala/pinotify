@@ -1,4 +1,7 @@
-build>=1.3
+# Only dependency required to run the pinotify library.
 gpiod>=2.3.0
-stdeb>=0.10
+
+# Dependencies for building the library into .deb package.
+build>=1.3
+git+https://github.com/astraw/stdeb.git@master
 setuptools>=80.9

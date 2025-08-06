@@ -17,6 +17,7 @@
 
 # Build folder and package info
 /dist/
+/deb_dist/
 *.egg-info/
 
 # VSCode configurations
