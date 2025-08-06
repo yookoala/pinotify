@@ -1,6 +1,6 @@
 # Pinotify
 
-[![pypi.org][pypi-badge]][pypi-url]
+[![License][license-badge]][license-url] [![pypi.org][pypi-badge]][pypi-url]
 
 This is a small software for receiving notification of a Raspberry Pi (RPi)
 pin change through [libgpiod][libgpiod]. This software monitor the voltage fall
@@ -13,6 +13,8 @@ and then trying to capture electirc signal when the doorbell button is triggered
 The software make use of the new [libgpiod][libgpiod] interface with the
 [official Python binding library][libgpiod-python].
 
+[license-badge]: https://img.shields.io/github/license/yookoala/pinotify
+[license-url]: https://github.com/yookoala/pinotify/blob/main/LICENSE.md
 [pypi-badge]: https://img.shields.io/pypi/v/pinotify
 [pypi-url]: https://pypi.org/project/pyinotify/
 [libgpiod]: https://libgpiod.readthedocs.io/
