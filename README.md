@@ -16,7 +16,7 @@ The software make use of the new [libgpiod][libgpiod] interface with the
 [license-badge]: https://img.shields.io/github/license/yookoala/pinotify
 [license-url]: https://github.com/yookoala/pinotify/blob/main/LICENSE.md
 [pypi-badge]: https://img.shields.io/pypi/v/pinotify
-[pypi-url]: https://pypi.org/project/pyinotify/
+[pypi-url]: https://pypi.org/project/pinotify/
 [libgpiod]: https://libgpiod.readthedocs.io/
 [libgpiod-python]: (https://libgpiod.readthedocs.io/en/latest/python_api.html)
 
