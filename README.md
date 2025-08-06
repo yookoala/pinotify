@@ -50,6 +50,26 @@ whenever a pin 12 voltage drops:
 python3 -m pinotify --pin 12 --exec '["/usr/local/bin/mycommand", "param1", "param2"]'
 ```
 
+## Development
+
+### Build as .deb Package
+
+```bash
+podman run --volume=".:/opt/pinotify:Z" --workdir="/opt/pinotify" -it docker.io/library/debian:"bookworm" /bin/bash
+```
+
+In the docker environment
+```bash
+apt update
+apt install -y build-essential git python3 python3-build python3-setuptools python3-venv python3-all debhelper dh-python
+make clean
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+make deb
+```
+
 
 ## License
 

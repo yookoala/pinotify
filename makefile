@@ -4,7 +4,7 @@ build:
 	python3 -m build
 
 clean:
-	rm -Rf dist/ deb_dist/
+	rm -Rf .venv/ dist/ deb_dist/
 
 publish-test:
 	python3 -m twine upload --verbose --repository testpypi dist/*
